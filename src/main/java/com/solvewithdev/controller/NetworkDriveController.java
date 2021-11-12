@@ -6,12 +6,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.solvewithdev.dto.NetworkDriveDto;
+import com.solvewithdev.dto.NetworkDriveModel;
 import com.solvewithdev.service.NetworkDriveService;
 
 import lombok.RequiredArgsConstructor;
@@ -25,23 +24,18 @@ public class NetworkDriveController {
 	private static final String BASE_RQUEST_URL = "/v1/networkDrive";
 	
 	@GetMapping(BASE_RQUEST_URL)
-	public List<NetworkDriveDto> getAllNetworkDrives() {
-		return networkDriveService.getAllNetworkDrives();
+	public List<NetworkDriveModel> getAllNetworkDrives() throws Exception {
+		return networkDriveService.getMappedNetworkList();
 	}
 	
 	@PostMapping(BASE_RQUEST_URL)
-	public NetworkDriveDto addNetworkDrive(@RequestBody NetworkDriveDto networkDriveDto) throws Exception {
-		return networkDriveService.addOrUpdateNetworkDrive(networkDriveDto);
-	}
-	
-	@PutMapping(BASE_RQUEST_URL)
-	public NetworkDriveDto updateNetworkDrive(@RequestBody NetworkDriveDto networkDriveDto) throws Exception {
-		return networkDriveService.addOrUpdateNetworkDrive(networkDriveDto);
+	public String addOrUpdateNetworkDrive(@RequestBody NetworkDriveModel networkDriveModel) throws Exception {
+		return networkDriveService.addOrUpdateNetworkDrive(networkDriveModel);
 	}
 		
 	@DeleteMapping(BASE_RQUEST_URL)
-	public void deleteNetworkDrive(@RequestParam int networkDriveId, @RequestParam String networkDriveName) throws Exception {
-		networkDriveService.deleteNetworkDrive(networkDriveId, networkDriveName);
+	public String deleteNetworkDrive(@RequestParam String networkDriveName) throws Exception {
+		return networkDriveService.deleteNetworkDrive(networkDriveName);
 	}
 
 }

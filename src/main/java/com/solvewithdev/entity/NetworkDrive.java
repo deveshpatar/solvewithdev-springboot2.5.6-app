@@ -42,6 +42,10 @@ public class NetworkDrive {
 	@Column(name = "NETWORK_DRIVE_PASSWORD")
 	private String networkDrivePassword;
 	
+	private String networkDriveStatus;
+	
+	private String networkDriveSource;
+	
 	@Column(name = "CREATED_AT")
 	private Timestamp createdAt;
 	

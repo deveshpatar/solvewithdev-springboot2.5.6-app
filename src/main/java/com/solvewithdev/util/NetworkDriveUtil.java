@@ -4,7 +4,8 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
-import com.solvewithdev.entity.NetworkDrive;
+import com.solvewithdev.dto.NetworkDriveDto;
+import com.solvewithdev.dto.NetworkDriveModel;
 
 public class NetworkDriveUtil {
 
@@ -12,8 +13,14 @@ public class NetworkDriveUtil {
 	static String networkResponse = null;
 	public static final String NETWORK_DRIVE_BASE_CMD = "cmd.exe /c net use";
 	
-	public static Process mapNetworkDrive(NetworkDrive networkDrive) throws Exception {
-		String MAP_CORNELLAD_NETWORK_DRIVE = String.format("%s %s %s %s", NETWORK_DRIVE_BASE_CMD, networkDrive.getNetworkDriveName(), networkDrive.getNetworkDrivePath(), "/persisten:yes");
+	public static Process mapNetworkDrive(NetworkDriveModel networkDriveModel) throws Exception {
+		String MAP_CORNELLAD_NETWORK_DRIVE = String.format("%s %s %s %s", NETWORK_DRIVE_BASE_CMD, networkDriveModel.getNetworkDriveName(), networkDriveModel.getNetworkDrivePath(), "/persisten:yes");
+		process = queryWindowsRegistrys(MAP_CORNELLAD_NETWORK_DRIVE);
+		return process;
+	}
+	
+	public static Process mapNetworkDriveDB(NetworkDriveDto networkDriveDto) throws Exception {
+		String MAP_CORNELLAD_NETWORK_DRIVE = String.format("%s %s %s %s", NETWORK_DRIVE_BASE_CMD, networkDriveDto.getNetworkDriveName(), networkDriveDto.getNetworkDrivePath(), "/persisten:yes");
 		process = queryWindowsRegistrys(MAP_CORNELLAD_NETWORK_DRIVE);
 		return process;
 	}
@@ -24,16 +31,12 @@ public class NetworkDriveUtil {
 		return process;
 	}
 
-	public String listNetworkDrives() throws Exception {
-		String responseMsg = queryWindowsRegistry(NETWORK_DRIVE_BASE_CMD);
-		if (responseMsg != null) {
-			responseMsg = "Network Drive List Successfully!";
-		} else {
-			responseMsg = "Something Wrong!";
-		}
-		return responseMsg;
+	public static Process queryWindowsRegistrys(String cmd) throws Exception {
+		process = Runtime.getRuntime().exec(cmd);
+		process.waitFor(10, TimeUnit.SECONDS);
+		return process;
 	}
-
+	
 	private static String queryWindowsRegistry(String cmd) throws Exception {
 		String responseMessage = null;
 		final Process process = Runtime.getRuntime().exec(cmd);
@@ -46,10 +49,4 @@ public class NetworkDriveUtil {
 		return responseMessage;
 	}
 	
-	private static Process queryWindowsRegistrys(String cmd) throws Exception {
-		process = Runtime.getRuntime().exec(cmd);
-		process.waitFor(10, TimeUnit.SECONDS);
-		return process;
-	}
-
 }

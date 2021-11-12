@@ -2,18 +2,14 @@ package com.solvewithdev.service;
 
 import java.util.List;
 
-import com.solvewithdev.dto.NetworkDriveDto;
+import com.solvewithdev.dto.NetworkDriveModel;
 
 public interface NetworkDriveService {
 	
-	List<NetworkDriveDto> getAllNetworkDrives();
+	List<NetworkDriveModel> getMappedNetworkList() throws Exception;
 	
-	NetworkDriveDto addOrUpdateNetworkDrive(NetworkDriveDto networkDriveDto)  throws Exception;
-	
-	NetworkDriveDto updateNetworkDrive(NetworkDriveDto networkDriveDto)  throws Exception;
-	
-	void deleteNetworkDrive(int driveId, String networkDriveName)  throws Exception;
+	String addOrUpdateNetworkDrive(NetworkDriveModel networkDriveModel)  throws Exception;
 
-	NetworkDriveDto connect(NetworkDriveDto driveDto)  throws Exception;
+	String deleteNetworkDrive(String networkDriveName)  throws Exception;
 
 }
